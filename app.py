@@ -9,7 +9,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Get API key from environment variable (stored in .env)
-PERPLEXITY_API_KEY = os.getenv("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")
+PERPLEXITY_API_KEY = os.getenv("PERPLEXITY_API_KEY")
 
 # Perplexity API endpoint (chat completion)
 API_URL = "https://api.perplexity.ai/chat/completions"
