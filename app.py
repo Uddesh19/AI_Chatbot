@@ -21,7 +21,7 @@ headers = {
 
 def query_perplexity(prompt):
     payload = {
-        "model": "sonar-small-chat",  # You can change the model if needed
+        "model": "sonar",  # You can change the model if needed
         "messages": [
             {"role": "system", "content": "You are a helpful chatbot."},
             {"role": "user", "content": prompt}
