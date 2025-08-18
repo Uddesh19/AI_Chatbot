@@ -1,10 +1,15 @@
 from flask import Flask, render_template, request, jsonify
 import requests
+import os
+from dotenv import load_dotenv   # <-- import dotenv
+
+# Load variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 
-# Replace with your Perplexity API key
-PERPLEXITY_API_KEY = "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"  # <-- put your key here
+# Get API key from environment variable (stored in .env)
+PERPLEXITY_API_KEY = os.getenv("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")
 
 # Perplexity API endpoint (chat completion)
 API_URL = "https://api.perplexity.ai/chat/completions"
@@ -16,7 +21,7 @@ headers = {
 
 def query_perplexity(prompt):
     payload = {
-        "model": "sonar-small-chat",  # You can use "pplx-7b-chat", etc. if available
+        "model": "sonar-small-chat",  # You can change the model if needed
         "messages": [
             {"role": "system", "content": "You are a helpful chatbot."},
             {"role": "user", "content": prompt}
@@ -28,11 +33,11 @@ def query_perplexity(prompt):
     # Debugging: print full API response in terminal
     print("API Response:", result)
     
-    # Get reply text
+    # Get reply text safely
     if "choices" in result and len(result["choices"]) > 0 and "message" in result["choices"][0]:
-        return result["choices"]["message"]["content"]
+        return result["choices"][0]["message"]["content"]
     elif "error" in result:
-        return "API Error: " + result["error"]
+        return "API Error: " + str(result["error"])
     else:
         return "No valid response from Perplexity API."
 
